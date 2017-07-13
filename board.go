@@ -85,3 +85,12 @@ func (m *Member) GetBoards(args Arguments) (boards []*Board, err error) {
 	}
 	return
 }
+
+func (o *Organization) GetBoards(args Arguments) (boards []*Board, err error) {
+	path := fmt.Sprintf("organizations/%s/boards", o.ID)
+	err = o.client.Get(path, args, &boards)
+	for i := range boards {
+		boards[i].client = o.client
+	}
+	return
+}
